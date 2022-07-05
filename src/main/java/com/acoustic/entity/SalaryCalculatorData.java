@@ -17,8 +17,10 @@ import java.math.BigDecimal;
 @Setter
 public class SalaryCalculatorData {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private BigDecimal grossMonthlySalary;
+
+    private String jobTitle;
 }
