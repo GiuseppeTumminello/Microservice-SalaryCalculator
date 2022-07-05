@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Repository
 public interface SalaryCalculatorRepository extends JpaRepository<SalaryCalculatorData, Integer> {
 
-    @Query(value = "select avg(gross_monthly) from data_salary_calculator where job_title=:jobTitle",
+    @Query(value = "select avg(gross_monthly_salary) from salary_calculator_data where job_title=:jobTitle",
             nativeQuery = true)
     BigDecimal findAverageByJobTitle(
             @Param("jobTitle")
