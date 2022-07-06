@@ -13,9 +13,8 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 public class SalaryCalculatorData {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

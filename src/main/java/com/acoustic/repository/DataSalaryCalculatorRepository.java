@@ -10,13 +10,10 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 
 @Repository
-public interface SalaryCalculatorRepository extends JpaRepository<SalaryCalculatorData, Integer> {
+public interface DataSalaryCalculatorRepository extends JpaRepository<SalaryCalculatorData, Integer> {
 
-    @Query(value = "select avg(gross_monthly_salary) from salary_calculator_data where job_title=:jobTitle",
-            nativeQuery = true)
-    BigDecimal findAverageByJobTitle(
-            @Param("jobTitle")
-            String jobTitle);
+    @Query(value = "select avg(gross_monthly_salary) from salary_calculator_data where job_title=:jobTitle", nativeQuery = true)
+    BigDecimal findAverageByJobTitle(@Param("jobTitle") String jobTitle);
 
 
 }
