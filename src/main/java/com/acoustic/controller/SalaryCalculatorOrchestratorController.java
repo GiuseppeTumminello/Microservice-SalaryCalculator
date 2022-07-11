@@ -2,7 +2,7 @@ package com.acoustic.controller;
 
 
 import com.acoustic.enpoints.MicroservicesEndpoints;
-import com.acoustic.entity.SalaryCalculatorData;
+import com.acoustic.entity.SalaryCalculatorOrchestratorData;
 import com.acoustic.jobcategories.JobCategoriesConfigurationProperties;
 import com.acoustic.model.ResponseMicroserviceModel;
 import com.acoustic.repository.DataSalaryCalculatorRepository;
@@ -23,7 +23,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Validated
 @CrossOrigin
-public class SalaryCalculatorController {
+public class SalaryCalculatorOrchestratorController {
 
     private static final int MINIMUM_GROSS = 2000;
     private final MicroservicesEndpoints microservicesEndpoints;
@@ -79,7 +79,7 @@ public class SalaryCalculatorController {
     }
 
     private BigDecimal statistic(String jobTitleId, BigDecimal grossMonthlySalary) {
-        this.dataSalaryCalculatorRepository.save(SalaryCalculatorData.builder().grossMonthlySalary(grossMonthlySalary).jobTitle(jobTitleId).build());
+        this.dataSalaryCalculatorRepository.save(SalaryCalculatorOrchestratorData.builder().grossMonthlySalary(grossMonthlySalary).jobTitle(jobTitleId).build());
         return this.dataSalaryCalculatorRepository.findAverageByJobTitle((jobTitleId));
     }
 

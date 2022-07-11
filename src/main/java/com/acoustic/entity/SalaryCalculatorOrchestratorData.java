@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SalaryCalculatorData {
+public class SalaryCalculatorOrchestratorData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

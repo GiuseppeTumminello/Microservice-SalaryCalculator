@@ -11,13 +11,13 @@ import java.util.function.UnaryOperator;
 
 
 @Component
-public class SalaryCalculatorTest {
+public class SalaryCalculatorResponse {
 
     private static final int MONTHS_NUMBER = 12;
     private final RatesConfigurationPropertiesTest ratesConfigurationPropertiesTest;
 
 
-    public SalaryCalculatorTest(final RatesConfigurationPropertiesTest ratesConfigurationPropertiesTest) {
+    public SalaryCalculatorResponse(final RatesConfigurationPropertiesTest ratesConfigurationPropertiesTest) {
         this.ratesConfigurationPropertiesTest = ratesConfigurationPropertiesTest;
 
     }

@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest
 @ActiveProfiles("test")
-public class SalaryCalculatorControllerGetTest {
+public class SalaryCalculatorOrchestratorControllerGetTest {
 
     private static final String DEPARTMENT_NAME_ENDPOINT = "/salaryCalculator/getJobDepartments";
     private static final String JOB_TITLE_ENDPOINT = "/salaryCalculator/getJobTitles/";
@@ -36,7 +36,7 @@ public class SalaryCalculatorControllerGetTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public SalaryCalculatorControllerGetTest() {
+    public SalaryCalculatorOrchestratorControllerGetTest() {
     }
 
 

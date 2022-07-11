@@ -7,8 +7,8 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
 @EnableEurekaClient
-public class SalaryCalculatorHandler {
+public class SalaryCalculatorOrchestratorApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SalaryCalculatorHandler.class, args);
+        SpringApplication.run(SalaryCalculatorOrchestratorApplication.class, args);
     }
 }
