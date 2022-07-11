@@ -22,6 +22,7 @@ import java.util.*;
 @RequestMapping("/salaryCalculator")
 @RequiredArgsConstructor
 @Validated
+@CrossOrigin
 public class SalaryCalculatorController {
 
     private static final int MINIMUM_GROSS = 2000;
@@ -47,7 +48,16 @@ public class SalaryCalculatorController {
         if (departmentName == null || jobTitleId == null) {
             return response;
         }
-        return getAverage(grossMonthlySalary, departmentName, jobTitleId, response);
+        List<String> jobTitlesList = this.jobCategoriesConfigurationProperties.getJobDepartmentAndTitles().get(departmentName);
+        if (!this.jobCategoriesConfigurationProperties.getJobDepartmentAndTitles().containsKey(departmentName.toLowerCase())) {
+            throw new IllegalArgumentException("Invalid department name");
+        }
+
+        if (jobTitleId > jobTitlesList.size() || jobTitleId <= 0) {
+            throw new IllegalArgumentException("Wrong job id");
+        }
+
+        return getAverage(grossMonthlySalary, jobTitlesList.get(jobTitleId - 1), response);
     }
 
 
@@ -61,27 +71,19 @@ public class SalaryCalculatorController {
     }
 
 
-    private Map<String, BigDecimal> getAverage(BigDecimal grossMonthlySalary, String departmentName, int jobTitleId, Map<String, BigDecimal> response) {
-        if (this.jobCategoriesConfigurationProperties.getJobDepartmentAndTitles().containsKey(departmentName.toLowerCase())) {
-            BigDecimal average = statistic(departmentName, jobTitleId, grossMonthlySalary);
-            if (average != null) {
-                response.put("Average", average.setScale(2, RoundingMode.HALF_EVEN));
-                return response;
-            }
-        }
-        throw new IllegalArgumentException("Invalid department name");
-    }
-
-
-    private BigDecimal statistic(String departmentName, int jobTitleId, BigDecimal grossMonthlySalary) {
-        List<String> jobTitlesList = this.jobCategoriesConfigurationProperties.getJobDepartmentAndTitles().get(departmentName);
-        if (jobTitleId <= jobTitlesList.size() && jobTitleId >= 1) {
-            this.dataSalaryCalculatorRepository.save(SalaryCalculatorData.builder().grossMonthlySalary(grossMonthlySalary).jobTitle(jobTitlesList.get(jobTitleId - 1)).build());
-            return this.dataSalaryCalculatorRepository.findAverageByJobTitle(jobTitlesList.get(jobTitleId - 1));
-        }
-        throw new IllegalArgumentException("Wrong job id");
+    private Map<String, BigDecimal> getAverage(BigDecimal grossMonthlySalary, String jobTitleId, Map<String, BigDecimal> response) {
+        BigDecimal average = statistic(jobTitleId, grossMonthlySalary);
+        response.put("Average", average.setScale(2, RoundingMode.HALF_EVEN));
+        return response;
 
     }
 
+    private BigDecimal statistic(String jobTitleId, BigDecimal grossMonthlySalary) {
+        this.dataSalaryCalculatorRepository.save(SalaryCalculatorData.builder().grossMonthlySalary(grossMonthlySalary).jobTitle(jobTitleId).build());
+        return this.dataSalaryCalculatorRepository.findAverageByJobTitle((jobTitleId));
+    }
 
 }
+
+
+
