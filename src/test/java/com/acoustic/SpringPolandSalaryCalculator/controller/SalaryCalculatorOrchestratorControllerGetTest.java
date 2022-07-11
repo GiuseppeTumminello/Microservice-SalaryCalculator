@@ -27,8 +27,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 public class SalaryCalculatorOrchestratorControllerGetTest {
 
-    private static final String DEPARTMENT_NAME_ENDPOINT = "/salaryCalculator/getJobDepartments";
-    private static final String JOB_TITLE_ENDPOINT = "/salaryCalculator/getJobTitles/";
+    private static final String DEPARTMENT_NAME_ENDPOINT = "/salary-calculations/departments";
+    private static final String JOB_TITLE_ENDPOINT = "/salary-calculations/jobs/";
 
 
     @Autowired

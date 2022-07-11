@@ -19,7 +19,7 @@ import java.math.RoundingMode;
 import java.util.*;
 
 @RestController
-@RequestMapping("/salaryCalculator")
+@RequestMapping("/salary-calculations")
 @RequiredArgsConstructor
 @Validated
 @CrossOrigin
@@ -31,18 +31,18 @@ public class SalaryCalculatorOrchestratorController {
     private final RestTemplate restTemplate;
     private final DataSalaryCalculatorRepository dataSalaryCalculatorRepository;
 
-    @GetMapping("/getJobTitles/{departmentName}")
+    @GetMapping("/jobs/{departmentName}")
     public List<String> getJobTitles(@PathVariable String departmentName) {
         return this.jobCategoriesConfigurationProperties.getJobDepartmentAndTitles().get(departmentName);
     }
 
-    @GetMapping("/getJobDepartments")
+    @GetMapping("/departments")
     public Set<String> getDepartmentName() {
         return this.jobCategoriesConfigurationProperties.getJobDepartmentAndTitles().keySet();
     }
 
 
-    @PostMapping("/calculator/{grossMonthlySalary}")
+    @PostMapping("/calculations/{grossMonthlySalary}")
     public Map<String, BigDecimal> calculateSalary(@PathVariable @Min(value = MINIMUM_GROSS, message = "Must be Greater than or equal to 2000.00") @NotNull BigDecimal grossMonthlySalary, @RequestParam(required = false) String departmentName, @RequestParam(required = false) Integer jobTitleId) {
         var response = getCalculationFromMicroservices(grossMonthlySalary);
         if (departmentName == null || jobTitleId == null) {

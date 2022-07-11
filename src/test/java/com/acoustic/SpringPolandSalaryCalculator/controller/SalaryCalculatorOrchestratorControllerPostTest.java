@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class SalaryCalculatorOrchestratorControllerPostTest {
 
 
-    public static final String CALCULATOR_ENDPOINTS = "/salaryCalculator/calculator/";
+    public static final String CALCULATOR_ENDPOINTS = "/salary-calculations/calculations/";
     public static final String DEPARTMENT_NAME_REQUEST_PARAM = "?departmentName=";
     public static final String JOB_TITLE_ID_REQUEST_PARAM = "&jobTitleId=";
 
