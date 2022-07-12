@@ -115,7 +115,7 @@ The application provide also an actuator which is accessible via the following e
 Swagger it is available via the following endpoints:
 
 * http://localhost:8080/swagger-ui/?urls.primaryName=salary-calculator
-* http://localhost:8096/pension-zus/v3/api-docs
+* http://localhost:8096/salary-calculations/v3/api-docs
 
 # Setup
 

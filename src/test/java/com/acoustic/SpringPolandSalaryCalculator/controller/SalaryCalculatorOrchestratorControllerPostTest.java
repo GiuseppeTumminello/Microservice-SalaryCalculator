@@ -2,6 +2,7 @@ package com.acoustic.SpringPolandSalaryCalculator.controller;
 
 
 import com.acoustic.SpringPolandSalaryCalculator.calculator.SalaryCalculatorResponse;
+import com.acoustic.controller.SalaryCalculatorOrchestratorController;
 import com.acoustic.repository.DataSalaryCalculatorRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
@@ -20,6 +21,7 @@ import java.math.BigDecimal;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -48,6 +50,10 @@ public class SalaryCalculatorOrchestratorControllerPostTest {
     @MockBean
     private DataSalaryCalculatorRepository dataSalaryCalculatorRepository;
 
+    @MockBean
+    private SalaryCalculatorOrchestratorController salaryCalculatorOrchestratorController;
+
+
 
     @ParameterizedTest
     @CsvSource({"6000, finance, 1",
@@ -56,10 +62,10 @@ public class SalaryCalculatorOrchestratorControllerPostTest {
             "7700, restaurant, 6",
             "12191.68, it, 10",
             "185891.68, finance, 2"})
-    public void getSalaryCalculation(
-            BigDecimal grossMonthlySalary, String departmentName, int jobTitleId) throws Exception {
+    public void getSalaryCalculation(BigDecimal grossMonthlySalary, String departmentName, int jobTitleId) throws Exception {
         this.average = true;
         given(this.dataSalaryCalculatorRepository.findAverageByJobTitle(any())).willReturn(grossMonthlySalary);
+        given(this.salaryCalculatorOrchestratorController.calculateSalary(grossMonthlySalary,departmentName,jobTitleId)).willReturn(this.salaryCalculatorResponse.expectedValue(grossMonthlySalary,average));
         this.mockMvc.perform(post(
                         CALCULATOR_ENDPOINTS + grossMonthlySalary + DEPARTMENT_NAME_REQUEST_PARAM + departmentName +
                                 JOB_TITLE_ID_REQUEST_PARAM + jobTitleId))
@@ -69,6 +75,8 @@ public class SalaryCalculatorOrchestratorControllerPostTest {
                                 average))));
 
     }
+
+
 
     @ParameterizedTest
     @CsvSource({"6000, finance, -10",
@@ -81,6 +89,7 @@ public class SalaryCalculatorOrchestratorControllerPostTest {
             BigDecimal grossMonthlySalary, String departmentName, int jobTitleId) {
         this.average = true;
         given(this.dataSalaryCalculatorRepository.findAverageByJobTitle(any())).willReturn(grossMonthlySalary);
+        when(this.salaryCalculatorOrchestratorController.calculateSalary(grossMonthlySalary, departmentName, jobTitleId)).thenThrow(new RuntimeException("Exception"));
         Assertions.assertThrows(NestedServletException.class,
                 () -> this.mockMvc.perform(post(
                                 CALCULATOR_ENDPOINTS + grossMonthlySalary + DEPARTMENT_NAME_REQUEST_PARAM + departmentName +
@@ -105,6 +114,7 @@ public class SalaryCalculatorOrchestratorControllerPostTest {
             BigDecimal grossMonthlySalary, String departmentName, int jobTitleId) {
         this.average = true;
         given(this.dataSalaryCalculatorRepository.findAverageByJobTitle(any())).willReturn(grossMonthlySalary);
+        when(this.salaryCalculatorOrchestratorController.calculateSalary(grossMonthlySalary, departmentName, jobTitleId)).thenThrow(new RuntimeException("Exception"));
         Assertions.assertThrows(NestedServletException.class,
                 () -> this.mockMvc.perform(post(
                                 CALCULATOR_ENDPOINTS + grossMonthlySalary + DEPARTMENT_NAME_REQUEST_PARAM + departmentName +
@@ -128,6 +138,7 @@ public class SalaryCalculatorOrchestratorControllerPostTest {
             BigDecimal grossMonthlySalary, String departmentName, int jobTitleId) {
         this.average = true;
         given(this.dataSalaryCalculatorRepository.findAverageByJobTitle(any())).willReturn(grossMonthlySalary);
+        when(this.salaryCalculatorOrchestratorController.calculateSalary(grossMonthlySalary, departmentName, jobTitleId)).thenThrow(new RuntimeException("Exception"));
         Assertions.assertThrows(NestedServletException.class,
                 () -> this.mockMvc.perform(post(
                                 CALCULATOR_ENDPOINTS + grossMonthlySalary + DEPARTMENT_NAME_REQUEST_PARAM + departmentName +
@@ -144,7 +155,10 @@ public class SalaryCalculatorOrchestratorControllerPostTest {
     @CsvSource({"6000", "7000", "15891.68", "7700", "2999.9999"})
     public void getSalaryCalculationGrossNoStatistic(BigDecimal grossMonthlySalary) throws Exception {
         this.average = false;
+        String department= null;
+        Integer jobId = null;
         given(this.dataSalaryCalculatorRepository.findAverageByJobTitle(any())).willReturn(grossMonthlySalary);
+        given(this.salaryCalculatorOrchestratorController.calculateSalary(grossMonthlySalary, department, jobId)).willReturn(this.salaryCalculatorResponse.expectedValue(grossMonthlySalary, average));
         this.mockMvc.perform(post(CALCULATOR_ENDPOINTS + grossMonthlySalary))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content()

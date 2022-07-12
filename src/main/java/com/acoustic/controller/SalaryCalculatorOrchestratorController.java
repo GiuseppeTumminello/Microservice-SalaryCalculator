@@ -61,7 +61,7 @@ public class SalaryCalculatorOrchestratorController {
     }
 
 
-    private Map<String, BigDecimal> getCalculationFromMicroservices(BigDecimal grossMonthlySalary) {
+    public Map<String, BigDecimal> getCalculationFromMicroservices(BigDecimal grossMonthlySalary) {
         Map<String, BigDecimal> response = new LinkedHashMap<>();
         for (var endpoint : this.microservicesEndpoints.getEndpoints()) {
             var responseFromEndpoints = this.restTemplate.postForEntity(endpoint + grossMonthlySalary, HttpMethod.POST, ResponseMicroserviceModel.class);
