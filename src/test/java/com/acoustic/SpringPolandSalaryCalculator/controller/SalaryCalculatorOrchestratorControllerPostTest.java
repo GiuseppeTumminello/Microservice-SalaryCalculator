@@ -54,7 +54,6 @@ public class SalaryCalculatorOrchestratorControllerPostTest {
     private SalaryCalculatorOrchestratorController salaryCalculatorOrchestratorController;
 
 
-
     @ParameterizedTest
     @CsvSource({"6000, finance, 1",
             "7000, it, 2, true",
@@ -65,7 +64,7 @@ public class SalaryCalculatorOrchestratorControllerPostTest {
     public void getSalaryCalculation(BigDecimal grossMonthlySalary, String departmentName, int jobTitleId) throws Exception {
         this.average = true;
         given(this.dataSalaryCalculatorRepository.findAverageByJobTitle(any())).willReturn(grossMonthlySalary);
-        given(this.salaryCalculatorOrchestratorController.calculateSalary(grossMonthlySalary,departmentName,jobTitleId)).willReturn(this.salaryCalculatorResponse.expectedValue(grossMonthlySalary,average));
+        given(this.salaryCalculatorOrchestratorController.calculateSalary(grossMonthlySalary, departmentName, jobTitleId)).willReturn(this.salaryCalculatorResponse.expectedValue(grossMonthlySalary, average));
         this.mockMvc.perform(post(
                         CALCULATOR_ENDPOINTS + grossMonthlySalary + DEPARTMENT_NAME_REQUEST_PARAM + departmentName +
                                 JOB_TITLE_ID_REQUEST_PARAM + jobTitleId))
@@ -74,8 +73,8 @@ public class SalaryCalculatorOrchestratorControllerPostTest {
                         .string(this.objectMapper.writeValueAsString(this.salaryCalculatorResponse.expectedValue(grossMonthlySalary,
                                 average))));
 
-    }
 
+    }
 
 
     @ParameterizedTest
@@ -155,7 +154,7 @@ public class SalaryCalculatorOrchestratorControllerPostTest {
     @CsvSource({"6000", "7000", "15891.68", "7700", "2999.9999"})
     public void getSalaryCalculationGrossNoStatistic(BigDecimal grossMonthlySalary) throws Exception {
         this.average = false;
-        String department= null;
+        String department = null;
         Integer jobId = null;
         given(this.dataSalaryCalculatorRepository.findAverageByJobTitle(any())).willReturn(grossMonthlySalary);
         given(this.salaryCalculatorOrchestratorController.calculateSalary(grossMonthlySalary, department, jobId)).willReturn(this.salaryCalculatorResponse.expectedValue(grossMonthlySalary, average));
